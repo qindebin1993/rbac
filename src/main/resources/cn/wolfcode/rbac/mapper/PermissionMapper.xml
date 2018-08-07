@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wolfcode.rbac.mapper.PermissionMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into permission(name,expression) values(#{name},#{expression})
+    </insert>
+    <delete id="delete">
+        delete from permission where id=#{id}
+    </delete>
+    <select id="list" resultType="Permission">
+       select id,name,expression from permission
+    </select>
+
+    <select id="queryForList" resultType="Permission">
+        select id,name,expression from permission
+        limit #{start}, #{pageSize}
+    </select>
+    <select id="queryForCount" resultType="int">
+        select count(*) from permission
+    </select>
+    <select id="selectAllExpressions" resultType="String">
+        select expression from permission
+    </select>
+    <select id="selectByRoleId" resultType="Permission">
+        select p.id,p.name.p.expression
+        from permission p join role_permission rp on p.id = rp.permission_id
+        where rp.role_id =#{roleId}
+    </select>
+</mapper>

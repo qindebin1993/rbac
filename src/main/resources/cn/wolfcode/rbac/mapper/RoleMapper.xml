@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wolfcode.rbac.mapper.RoleMapper">
+    <resultMap id="baseMap" type="Role">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="sn" property="sn"/>
+        <collection property="permissions" column="id"
+              select="cn.wolfcode.rbac.mapper.PermissionMapper.selectByRoleId"/>
+    </resultMap>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into role(name,sn) values(#{name},#{sn})
+    </insert>
+    <update id="update">
+        update role set name=#{name},sn=#{sn} where id=#{id}
+    </update>
+    <delete id="delete">
+        delete from role where id=#{id}
+    </delete>
+    <select id="get" resultType="Role">
+       select id,name,sn from role where id=#{id}
+    </select>
+    <select id="list" resultType="Role">
+       select id,name,sn from role
+    </select>
+
+    <select id="queryForList" resultType="Role">
+        select id,name,sn from role
+        limit #{start}, #{pageSize}
+    </select>
+    <select id="queryForCount" resultType="int">
+        select count(*) from role e
+    </select>
+</mapper>
