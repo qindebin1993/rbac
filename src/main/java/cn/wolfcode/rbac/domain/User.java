@@ -7,4 +7,5 @@ import lombok.Setter;
 public class User {
     private String name;
     private Long id;
+    private int ppp;
 }
